@@ -30,9 +30,9 @@
             if (rowWithUsername) {
               // Display the attendance count for the username
               const attendanceCount = rowWithUsername[0];
-              console.log(`Attendance for ${username}: ${attendanceCount}`);
+              alert(`Attendance for ${username}: ${attendanceCount}`);
             } else {
-              console.log(`Username "${username}" not found.`);
+              alert(`Username "${username}" not found.`);
             }
           })
           .catch(error => console.error('Error:', error));
@@ -42,7 +42,7 @@
   <body>
     <h1>Check Your Attendance</h1>
     <label for="username">Enter Your Username:</label>
-    <input type="text" id="username" name="username">
+    <input type="text" id="username" name="username" placeholder="Username">
     <button onclick="fetchData(document.getElementById('username').value)">Check Attendance</button>
   </body>
 </html>

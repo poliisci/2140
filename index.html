@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Attendance Check</title>
+    <script>
+      // Your code here
+      // Your Google Sheets API key
+      const API_KEY = 'AIzaSyAbdPe9cux-NIKSit39SE32m-IEDBe2xME';
+
+      // Your Google Sheets ID
+      const SPREADSHEET_ID = '1_x0kf2YzprIrGW8oOM4tk9oHbt5NCu6tbBuhxrY6Hss';
+
+      // The range in A1 notation
+      const RANGE = 'Sheet1!A1:A100';
+
+      // Build Google Sheets API request URL
+      const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
+
+      // Fetch data from Google Sheets
+      function fetchData() {
+        fetch(URL)
+          .then(response => response.json())
+          .then(data => {
+            // Process the returned data (in data.values)
+            console.log(data.values);
+          })
+          .catch(error => console.error('Error:', error));
+      }
+    </script>
+  </head>
+  <body>
+    <h1>Check Your Attendance</h1>
+    <button onclick="fetchData()">Fetch Attendance Data</button>
+  </body>
+</html>

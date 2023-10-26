@@ -13,7 +13,7 @@
       const SHEET_NAME = 'Sheet1';
 
       // Build Google Sheets API request URL
-      const RANGE = `${SHEET_NAME}!A1:A100`;
+      const RANGE = `${SHEET_NAME}!G1:H100`; // Updated range to include columns G and H
       const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 
       // Function to display attendance count
@@ -34,12 +34,12 @@
             // Process the returned data (in data.values)
             const attendanceData = data.values;
             
-            // Find the row with the provided username
+            // Find the row with the provided username in column G
             const rowWithUsername = attendanceData.find(row => row[0] === username);
             
             if (rowWithUsername) {
-              // Get the attendance count for the username
-              const attendanceCount = rowWithUsername[0];
+              // Get the attendance count from column H
+              const attendanceCount = rowWithUsername[1];
               displayAttendance(username, attendanceCount);
             } else {
               displayAttendance(username);

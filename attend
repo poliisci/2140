@@ -1,0 +1,35 @@
+// Triggered when the search button is clicked
+$("#search-button").click(function() {
+  // Get the username from input field
+  var username = $("#username-input").val();
+
+  // Hash the username (this is a placeholder; you'll use a real hash function)
+  var hashedUsername = hashUsername(username);
+
+  // Fetch data from Google Sheet
+  $.ajax({
+    url: `https://sheets.googleapis.com/v4/spreadsheets/SPREADSHEET_ID/values/Sheet1?key=API_KEY`,
+    type: 'GET',
+    success: function(response) {
+      // Parse the Google Sheet data to find the corresponding row
+      var rows = response.values;
+      for (var i = 0; i < rows.length; i++) {
+        if (rows[i][7] === hashedUsername) {  // Assuming the hashed ID is in the 8th column (index 7)
+          // Display the total (assuming it's in the 1st column, index 0)
+          alert("Total Submitted Week 1-6: " + rows[i][0]);
+          return;
+        }
+      }
+      alert("Username not found");
+    },
+    error: function(error) {
+      alert("An error occurred");
+    }
+  });
+});
+
+// Placeholder function for hashing the username
+function hashUsername(username) {
+  // Implement your SHA-256 hash here to match what you did in Google Apps Script
+  return username;  // This is a placeholder
+}

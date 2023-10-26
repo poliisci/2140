@@ -3,17 +3,17 @@
   <head>
     <title>Attendance Check</title>
     <script>
-      // Your code here
       // Your Google Sheets API key
-      const API_KEY = 'AIzaSyAbdPe9cux-NIKSit39SE32m-IEDBe2xME';
+      const API_KEY = 'AIzaSyAbdPe9cux-NIKSit39SE32m-IEDBe2xME'; // Replace with your actual API key
 
       // Your Google Sheets ID
       const SPREADSHEET_ID = '1_x0kf2YzprIrGW8oOM4tk9oHbt5NCu6tbBuhxrY6Hss';
 
-      // The range in A1 notation
-      const RANGE = 'Sheet1!A1:A100';
+      // The sheet name (the first sheet in this case)
+      const SHEET_NAME = 'Sheet1';
 
       // Build Google Sheets API request URL
+      const RANGE = `${SHEET_NAME}!A1:A100`;
       const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 
       // Fetch data from Google Sheets

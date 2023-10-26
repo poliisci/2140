@@ -2,7 +2,7 @@
 const API_KEY = 'AIzaSyAbdPe9cux-NIKSit39SE32m-IEDBe2xME';
 
 // Your Google Sheets ID
-const SPREADSHEET_ID = 'YOUR-SPREADSHEET-ID-HERE';
+const SPREADSHEET_ID = '1_x0kf2YzprIrGW8oOM4tk9oHbt5NCu6tbBuhxrY6Hss';
 
 // The range in A1 notation
 const RANGE = 'Sheet1!A1:A100';

@@ -16,6 +16,16 @@
       const RANGE = `${SHEET_NAME}!A1:A100`;
       const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 
+      // Function to display attendance count
+      function displayAttendance(username, attendanceCount) {
+        const resultDiv = document.getElementById('result');
+        if (attendanceCount !== undefined) {
+          resultDiv.innerHTML = `Attendance for ${username}: ${attendanceCount}`;
+        } else {
+          resultDiv.innerHTML = `Username "${username}" not found.`;
+        }
+      }
+
       // Fetch data from Google Sheets
       function fetchData(username) {
         fetch(URL)
@@ -28,11 +38,11 @@
             const rowWithUsername = attendanceData.find(row => row[0] === username);
             
             if (rowWithUsername) {
-              // Display the attendance count for the username
+              // Get the attendance count for the username
               const attendanceCount = rowWithUsername[0];
-              alert(`Attendance for ${username}: ${attendanceCount}`);
+              displayAttendance(username, attendanceCount);
             } else {
-              alert(`Username "${username}" not found.`);
+              displayAttendance(username);
             }
           })
           .catch(error => console.error('Error:', error));
@@ -44,5 +54,6 @@
     <label for="username">Enter Your Username:</label>
     <input type="text" id="username" name="username" placeholder="Username">
     <button onclick="fetchData(document.getElementById('username').value)">Check Attendance</button>
+    <div id="result"></div> <!-- This div will display the result -->
   </body>
 </html>

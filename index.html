@@ -17,12 +17,23 @@
       const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
 
       // Fetch data from Google Sheets
-      function fetchData() {
+      function fetchData(username) {
         fetch(URL)
           .then(response => response.json())
           .then(data => {
             // Process the returned data (in data.values)
-            console.log(data.values);
+            const attendanceData = data.values;
+            
+            // Find the row with the provided username
+            const rowWithUsername = attendanceData.find(row => row[0] === username);
+            
+            if (rowWithUsername) {
+              // Display the attendance count for the username
+              const attendanceCount = rowWithUsername[0];
+              console.log(`Attendance for ${username}: ${attendanceCount}`);
+            } else {
+              console.log(`Username "${username}" not found.`);
+            }
           })
           .catch(error => console.error('Error:', error));
       }
@@ -30,6 +41,8 @@
   </head>
   <body>
     <h1>Check Your Attendance</h1>
-    <button onclick="fetchData()">Fetch Attendance Data</button>
+    <label for="username">Enter Your Username:</label>
+    <input type="text" id="username" name="username">
+    <button onclick="fetchData(document.getElementById('username').value)">Check Attendance</button>
   </body>
 </html>

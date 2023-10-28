@@ -1,59 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>Attendance Check</title>
-    <script>
-      // Your Google Sheets API key
-      const API_KEY = 'AIzaSyAbdPe9cux-NIKSit39SE32m-IEDBe2xME'; // Replace with your actual API key
-
-      // Your Google Sheets ID
-      const SPREADSHEET_ID = '1_x0kf2YzprIrGW8oOM4tk9oHbt5NCu6tbBuhxrY6Hss';
-
-      // The sheet name (the first sheet in this case)
-      const SHEET_NAME = 'Sheet1';
-
-      // Build Google Sheets API request URL
-      const RANGE = `${SHEET_NAME}!G1:H100`; // Updated range to include columns G and H
-      const URL = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${RANGE}?key=${API_KEY}`;
-
-      // Function to display attendance count
-      function displayAttendance(username, attendanceCount) {
-        const resultDiv = document.getElementById('result');
-        if (attendanceCount !== undefined) {
-          resultDiv.innerHTML = `Attendance for ${username}: ${attendanceCount}`;
-        } else {
-          resultDiv.innerHTML = `Username "${username}" not found.`;
-        }
-      }
-
-      // Fetch data from Google Sheets
-      function fetchData(username) {
-        fetch(URL)
-          .then(response => response.json())
-          .then(data => {
-            // Process the returned data (in data.values)
-            const attendanceData = data.values;
-            
-            // Find the row with the provided username in column G
-            const rowWithUsername = attendanceData.find(row => row[0] === username);
-            
-            if (rowWithUsername) {
-              // Get the attendance count from column H
-              const attendanceCount = rowWithUsername[1];
-              displayAttendance(username, attendanceCount);
-            } else {
-              displayAttendance(username);
-            }
-          })
-          .catch(error => console.error('Error:', error));
-      }
-    </script>
-  </head>
-  <body>
+<head>
+    <title>Student Attendance Checker</title>
+</head>
+<body>
     <h1>Check Your Attendance</h1>
-    <label for="username">Enter Your Username:</label>
-    <input type="text" id="username" name="username" placeholder="Username">
-    <button onclick="fetchData(document.getElementById('username').value)">Check Attendance</button>
-    <div id="result"></div> <!-- This div will display the result -->
-  </body>
+    <form id="attendanceForm">
+        <label for="studentID">Enter your Student ID:</label>
+        <input type="text" id="studentID" name="studentID" required>
+        <input type="submit" value="Check Attendance">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById("attendanceForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            const studentId = document.getElementById("studentID").value;
+            fetch('/getAttendance', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ studentId }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").textContent = data.attendance;
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+            });
+        });
+    </script>
+</body>
 </html>
